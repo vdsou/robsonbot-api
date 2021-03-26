@@ -37,7 +37,7 @@ client.on("message", async (msg) => {
 client.login(token);
 app.use(index);
 app.get("/", (req, res) => {
-  res.send("HI");
+  res.send("Hi 🤖 bip bop...");
 });
 
 module.exports = { app, connectDB, client };
