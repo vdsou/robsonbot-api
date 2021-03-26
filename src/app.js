@@ -24,7 +24,6 @@ app.use(bodyParser.json());
 client.on("message", async (msg) => {
   await getCommands();
   const splitCmd = msg.content.split(" ");
-  console.log(splitCmd);
   commands.map((objCommand) => {
     if (splitCmd[0] === "!" + objCommand.command) {
       msg.channel.send(
