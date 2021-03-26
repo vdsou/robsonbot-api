@@ -1,37 +1,39 @@
-require("dotenv").config();
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT | 3000;
 const token = process.env.token;
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const mongoose = require("mongoose");
-const db = require("./data/db");
+const connectDB = require("./data/db");
 const commandsController = require("./controllers/commands");
+const index = require("./routes/index");
+const cors = require("cors");
+const logger = require("morgan");
+const bodyParser = require("body-parser");
 let commands = {};
-
 async function getCommands() {
   commands = await commandsController.getCommands();
   return commands;
 }
 
-client.on("ready", async () => {
-  console.log("Logged in as", client.user.tag);
-});
+app.use(cors());
+app.use(logger("dev"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 client.on("message", async (msg) => {
-  await getCommands()
-  if (msg.content === "!" + commands[0].command) {
-    msg.channel.send(commands[0].return);
-  }
+  await getCommands();
+    commands.map((objCommand) => {
+    if (msg.content === "!" + objCommand.command) {
+      msg.channel.send(objCommand.cmdReturn);
+    }
+  });
 });
 // client.on("debug", console.log)
 client.login(token);
-
+app.use(index);
 app.get("/", (req, res) => {
   res.send("HI");
 });
 
-app.listen(PORT, async () => {
-  console.log("Connected to port: ", PORT);
-});
+module.exports = { app, connectDB, client };

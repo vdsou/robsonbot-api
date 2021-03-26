@@ -1,26 +1,37 @@
 const mongoose = require("mongoose");
 const Commands = require("../models/commands");
 
-// exports.getCommands = Commands.find()
-//   .select("command return")
-//   .exec()
-//   .then((result) => {
-//     // console.log(result);
-//     // return {
-//     //   command: result.command,
-//     //   return: result.return
-//     // };
-//     return result
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-
-exports.getCommands = async () => {
+exports.getCommands = async (req, res) => {
   try {
-    const commands = await Commands.find().select("command return")
-    return commands
+    const commands = await Commands.find().select("command cmdReturn");
+    if (req || res) {
+      
+      res.status(200).json({
+        commands,
+      });
+    }
+    return commands;
   } catch (error) {
-    console.log("error", error)
+    console.log("error", error);
+  }
+};
+
+exports.addCommand = async (req, res) => {
+  try {
+    const command = req.body.command.toString();
+    const cmdReturn = req.body.cmdReturn.toString();
+    const insertCommands = await new Commands({
+      _id: mongoose.Types.ObjectId(),
+      command,
+      cmdReturn,
+    });
+    const saveCommand = await insertCommands.save();
+    res.status(201).json({
+      command,
+      cmdReturn,
+      saveCommand,
+    });
+  } catch (error) {
+    console.log("Deu ruim.", error);
   }
 };
