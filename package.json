@@ -2,7 +2,7 @@
   "name": "RobsonBot",
   "version": "1.0.0",
   "description": "my cool discord bot",
-  "main": "index.js",
+  "main": "server.js",
   "author": "vdsou",
   "license": "MIT",
   "dependencies": {
