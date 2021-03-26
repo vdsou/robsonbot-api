@@ -12,7 +12,7 @@ exports.getCommands = async (req, res) => {
     }
     return commands;
   } catch (error) {
-    console.log("error", error);
+    console.log("Error: ", error);
   }
 };
 
@@ -32,6 +32,6 @@ exports.addCommand = async (req, res) => {
       saveCommand,
     });
   } catch (error) {
-    console.log("Deu ruim.", error);
+    console.log("Error: ", error);
   }
 };

@@ -23,9 +23,14 @@ app.use(bodyParser.json());
 
 client.on("message", async (msg) => {
   await getCommands();
-    commands.map((objCommand) => {
-    if (msg.content === "!" + objCommand.command) {
-      msg.channel.send(objCommand.cmdReturn);
+  const splitCmd = msg.content.split(" ");
+  console.log(splitCmd);
+  commands.map((objCommand) => {
+    if (splitCmd[0] === "!" + objCommand.command) {
+      msg.channel.send(
+        objCommand.cmdReturn +
+          (splitCmd[1] === undefined ? "!" : ", " + splitCmd[1] + "!")
+      );
     }
   });
 });
