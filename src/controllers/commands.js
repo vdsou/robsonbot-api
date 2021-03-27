@@ -60,7 +60,6 @@ exports.updateCommand = async (req, res) => {
         }
       }
       try {
-        console.log(req.body, updates);
         const update = await Commands.updateOne({ _id: id }, { $set: updates });
         return res.status(200).json({
           message: "update",
