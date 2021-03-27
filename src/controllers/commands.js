@@ -5,33 +5,106 @@ exports.getCommands = async (req, res) => {
   try {
     const commands = await Commands.find().select("command cmdReturn");
     if (req || res) {
-      
-      res.status(200).json({
+      return res.status(200).json({
+        Total: commands.length,
         commands,
       });
     }
     return commands;
   } catch (error) {
     console.log("Error: ", error);
+    return res.status(500).json({
+      success: false,
+      error,
+    });
   }
 };
-
 exports.addCommand = async (req, res) => {
   try {
     const command = req.body.command.toString();
     const cmdReturn = req.body.cmdReturn.toString();
-    const insertCommands = await new Commands({
+    const insertCommand = await new Commands({
       _id: mongoose.Types.ObjectId(),
       command,
       cmdReturn,
     });
-    const saveCommand = await insertCommands.save();
-    res.status(201).json({
+    const saveCommand = await insertCommand.save();
+    return res.status(201).json({
       command,
       cmdReturn,
       saveCommand,
     });
   } catch (error) {
     console.log("Error: ", error);
+    return res.status(500).json({
+      message: "fail",
+      success: false,
+      error,
+    });
+  }
+};
+exports.updateCommand = async (req, res) => {
+  const id = req.params.id.toString();
+  try {
+    const getById = await Commands.find({ _id: id });
+    if (getById.length === 0 || !getById) {
+      return res.status(404).json({
+        message: "Not found",
+        success: false,
+      });
+    } else {
+      const updates = {};
+      for (const key in req.body) {
+        if (req.body.hasOwnProperty(key)) {
+          updates[key] = req.body[key];
+        }
+      }
+      try {
+        console.log(req.body, updates);
+        const update = await Commands.updateOne({ _id: id }, { $set: updates });
+        return res.status(200).json({
+          message: "update",
+          success: true,
+          update,
+        });
+      } catch (error) {
+        console.log("Error", err);
+        return res.status(500).json({
+          message: "update",
+          success: false,
+          error: err,
+        });
+      }
+    }
+  } catch (error) {
+    console.log("Error: commands not found!", error);
+    return res.status(500).json({
+      error,
+    });
+  }
+};
+exports.deleteCommand = async (req, res) => {
+  const id = req.params.id.toString();
+  try {
+    const deleteCommand = await Commands.findOneAndDelete({ _id: id });
+    console.log(deleteCommand);
+    if (!deleteCommand) {
+      return res.status(404).json({
+        message: "Not found",
+        success: false,
+        deleted: deleteCommand,
+      });
+    }
+    return res.status(200).json({
+      message: "delete",
+      success: true,
+      deleted: deleteCommand,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "delete",
+      success: false,
+      error,
+    });
   }
 };
