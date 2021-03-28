@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Commands = require("../models/commands");
+const Commands = require("../models/command");
 
 exports.getCommands = async (req, res) => {
   try {
@@ -86,7 +86,6 @@ exports.deleteCommand = async (req, res) => {
   const id = req.params.id.toString();
   try {
     const deleteCommand = await Commands.findOneAndDelete({ _id: id });
-    console.log(deleteCommand);
     if (!deleteCommand) {
       return res.status(404).json({
         message: "Not found",
