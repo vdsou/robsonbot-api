@@ -23,6 +23,9 @@ app.use(bodyParser.json());
 
 client.on("message", async (msg) => {
   await getCommands();
+  if (msg.content === "!comandos") {
+    msg.channel.send(commands.map(ObjCommand => `!${ObjCommand.command}`))
+  }
   const splitCmd = msg.content.split(" ");
   splitCmd[0] =
     splitCmd[0] === "!linda" || splitCmd[0] === "!lindo"
@@ -30,9 +33,8 @@ client.on("message", async (msg) => {
       : splitCmd[0];
   commands.map((objCommand) => {
     if (splitCmd[0] === "!" + objCommand.command) {
-      if (objCommand.command === "lind")
-        msg.channel.send(msg.author.displayAvatarURL());
-      msg.channel.send(
+      if (objCommand.command === "lind") msg.channel.send(msg.author.displayAvatarURL());        
+      msg.channel.send(objCommand.cmdReturn.match(/https:\/\//) ? objCommand.cmdReturn :
         objCommand.cmdReturn +
           (splitCmd[1] === undefined ? "!" : ", " + splitCmd[1] + "!")
       );
