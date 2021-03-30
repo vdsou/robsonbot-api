@@ -36,7 +36,7 @@ client.on("message", async (msg) => {
       if (objCommand.command === "lind") msg.channel.send(msg.author.displayAvatarURL());
       msg.channel.send(
         objCommand.cmdReturn +
-          (/[...]$/.test(objCommand.cmdReturn)
+          (!objCommand.cmdReturn || /[...]$/.test(objCommand.cmdReturn)
             ? ""
             : (splitCmd[1] === undefined
             ? "!"
