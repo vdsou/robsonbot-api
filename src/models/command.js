@@ -5,6 +5,7 @@ const model = mongoose.model;
 const commandSchema = new Schema({
   _id: mongoose.Schema.Types.ObjectId,
   command: { type: String, required: true },
+  image: String,
   cmdReturn: { type: String, required: true },
 });
 
