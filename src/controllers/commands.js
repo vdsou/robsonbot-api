@@ -67,7 +67,7 @@ exports.updateCommand = async (req, res) => {
         return res.status(200).json({
           message: "update",
           success: true,
-          update,
+          updates,
         });
       } catch (error) {
         console.log("Error", err);
