@@ -7,6 +7,7 @@ const commandSchema = new Schema({
   command: { type: String, required: true },
   image: String,
   cmdReturn: { type: String, required: true },
+  count: Number,
 });
 
 module.exports = model("Command", commandSchema);
