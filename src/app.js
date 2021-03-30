@@ -24,7 +24,10 @@ app.use(bodyParser.json());
 client.on("message", async (msg) => {
   await getCommands();
   if (msg.content === "!comandos") {
-    msg.channel.send(commands.map(ObjCommand => `!${ObjCommand.command}`))
+    msg.channel.send(commands.map((ObjCommand) => `!${ObjCommand.command}`));
+  }
+  if (msg.content === "!cantora") {
+    return msg.channel.send("(TESTE)", { files: [] });
   }
   const splitCmd = msg.content.split(" ");
   splitCmd[0] =
@@ -33,10 +36,15 @@ client.on("message", async (msg) => {
       : splitCmd[0];
   commands.map((objCommand) => {
     if (splitCmd[0] === "!" + objCommand.command) {
-      if (objCommand.command === "lind") msg.channel.send(msg.author.displayAvatarURL());        
-      msg.channel.send(objCommand.cmdReturn.match(/https:\/\//) ? objCommand.cmdReturn :
+      if (objCommand.command === "lind") msg.channel.send(msg.author.displayAvatarURL());
+      msg.channel.send(
         objCommand.cmdReturn +
-          (splitCmd[1] === undefined ? "!" : ", " + splitCmd[1] + "!")
+          (/[...]$/.test(objCommand.cmdReturn)
+            ? ""
+            : (splitCmd[1] === undefined
+            ? "!"
+            : ", " + splitCmd[1] + "!")),
+        objCommand.image ? { files: [objCommand.image] } : null
       );
     }
   });

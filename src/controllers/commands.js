@@ -3,7 +3,7 @@ const Commands = require("../models/command");
 
 exports.getCommands = async (req, res) => {
   try {
-    const commands = await Commands.find().select("command cmdReturn");
+    const commands = await Commands.find().select("command cmdReturn image");
     if (req || res) {
       return res.status(200).json({
         Total: commands.length,
@@ -22,15 +22,18 @@ exports.getCommands = async (req, res) => {
 exports.addCommand = async (req, res) => {
   try {
     const command = req.body.command.toString();
+    const image = req.body.image.toString();
     const cmdReturn = req.body.cmdReturn.toString();
     const insertCommand = await new Commands({
       _id: mongoose.Types.ObjectId(),
       command,
+      image,
       cmdReturn,
     });
     const saveCommand = await insertCommand.save();
     return res.status(201).json({
       command,
+      image,
       cmdReturn,
       saveCommand,
     });
