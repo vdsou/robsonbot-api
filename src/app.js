@@ -26,9 +26,6 @@ client.on("message", async (msg) => {
   if (msg.content === "!comandos") {
     msg.channel.send(commands.map((ObjCommand) => `!${ObjCommand.command}`));
   }
-  if (msg.content === "!cantora") {
-    return msg.channel.send("(TESTE)", { files: [] });
-  }
   const splitCmd = msg.content.split(" ");
   splitCmd[0] =
     splitCmd[0] === "!linda" || splitCmd[0] === "!lindo"
