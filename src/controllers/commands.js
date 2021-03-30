@@ -3,7 +3,9 @@ const Commands = require("../models/command");
 
 exports.getCommands = async (req, res) => {
   try {
-    const commands = await Commands.find().select("command cmdReturn image");
+    const commands = await Commands.find().select(
+      "command cmdReturn image count"
+    );
     if (req || res) {
       return res.status(200).json({
         Total: commands.length,
@@ -24,18 +26,20 @@ exports.addCommand = async (req, res) => {
     const command = req.body.command.toString();
     const image = req.body.image.toString();
     const cmdReturn = req.body.cmdReturn.toString();
+    const count = req.body.count;
     const insertCommand = await new Commands({
       _id: mongoose.Types.ObjectId(),
       command,
       image,
       cmdReturn,
+      count,
     });
     const saveCommand = await insertCommand.save();
     return res.status(201).json({
       command,
       image,
       cmdReturn,
-      saveCommand,
+      count,
     });
   } catch (error) {
     console.log("Error: ", error);
