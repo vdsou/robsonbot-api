@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const Commands = require("../models/command");
 
+exports.getOneCommand = async (command) => {
+  const update = await Commands.findOne({ command });
+  return update;
+};
+
 exports.getCommands = async (req, res) => {
   try {
     const commands = await Commands.find().select(
@@ -112,4 +117,9 @@ exports.deleteCommand = async (req, res) => {
       error,
     });
   }
+};
+
+exports.updateCount = async (command, newCount) => {
+  const updateCount = await Commands.findOneAndUpdate({ command }, {count: newCount});
+  return updateCount;
 };
