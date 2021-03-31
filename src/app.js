@@ -10,46 +10,54 @@ const index = require("./routes/index");
 const cors = require("cors");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
+const axios = require("axios");
 let commands = {};
+app.use(cors());
+app.use(logger("dev"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 async function getCommands() {
   commands = await commandsController.getCommands();
   return commands;
 }
 
-app.use(cors());
-app.use(logger("dev"));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-let count = 0;
-
 client.on("message", async (msg) => {
   await getCommands();
+
   if (msg.content === "!comandos") {
     msg.channel.send(commands.map((ObjCommand) => `!${ObjCommand.command}`));
   }
-  const splitCmd = msg.content.split(" ");
+  const splitCmd = msg.content.slice(1, msg.content.length).split(" ");
+
   splitCmd[0] =
-    splitCmd[0] === "!linda" || splitCmd[0] === "!lindo"
-      ? "!lind"
+    splitCmd[0] === "linda" || splitCmd[0] === "lindo"
+      ? "lind"
       : splitCmd[0];
-  commands.map((objCommand) => {
-    if (splitCmd[0] === "!" + objCommand.command) {
-      if (objCommand.command === "lind")
-        msg.channel.send(msg.author.displayAvatarURL());
-      msg.channel.send(
-        objCommand.cmdReturn === ""
-          ? ""
-          : objCommand.cmdReturn +
-              (objCommand.count == undefined ? "" : ` ${++count} vezes`) +
-              (!objCommand.cmdReturn || /[...]$/.test(objCommand.cmdReturn)
-                ? ""
-                : splitCmd[1] === undefined
-                ? "!"
-                : ", " + splitCmd[1] + "!"),
-        objCommand.image ? { files: [objCommand.image] } : null
-      );
-    }
-  });
+  const result = (await commandsController.getOneCommand(splitCmd[0]))
+    ? await commandsController.getOneCommand(splitCmd[0])
+    : "";
+
+  if (result) {
+    if(result.command === "lind") msg.channel.send(msg.author.displayAvatarURL());
+    if (result.count)
+      await commandsController.updateCount(result.command, (result.count += 1));
+
+    const strCount = result.count ? ` ${result.count} vezes` : "";
+    // msg.channel.send("");
+    await msg.channel.send(
+      result.cmdReturn === ""
+        ? ""
+        : result.cmdReturn +
+            strCount +
+            (!result.cmdReturn || /[...]$/.test(result.cmdReturn)
+              ? ""
+              : splitCmd[1]
+              ? ", " + splitCmd[1] + "!"
+              : "!"),
+      result.image ? { files: [result.image] } : null
+    );
+  }
 });
 // client.on("debug", console.log)
 client.login(token);
