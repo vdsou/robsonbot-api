@@ -31,17 +31,14 @@ client.on("message", async (msg) => {
   const splitCmd = msg.content.slice(1, msg.content.length).split(" ");
 
   splitCmd[0] =
-    splitCmd[0] === "linda" || splitCmd[0] === "lindo"
-      ? "lind"
-      : splitCmd[0];
+    splitCmd[0] === "linda" || splitCmd[0] === "lindo" ? "lind" : splitCmd[0];
   const result = (await commandsController.getOneCommand(splitCmd[0]))
     ? await commandsController.getOneCommand(splitCmd[0])
     : "";
 
   if (result) {
-    if(result.command === "lind") msg.channel.send(msg.author.displayAvatarURL());
-    if (result.count)
-      await commandsController.updateCount(result.command, (result.count += 1));
+    if (result.command === "lind") msg.channel.send(msg.author.displayAvatarURL());
+    if (result.count) await commandsController.updateCount(result.command, (result.count += 1));
 
     const strCount = result.count ? ` ${result.count} vezes` : "";
     // msg.channel.send("");
