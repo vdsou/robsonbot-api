@@ -48,13 +48,14 @@ client.on("message", async (msg) => {
     : "";
 
   if (result) {
-    if (result.command === "lind")
+    if (result.command === "lind") {
       msg.channel.send(msg.author.displayAvatarURL());
-    if (result.count)
+    }
+    if (result.count >= 0) {
       await commandsController.updateCount(result.command, (result.count += 1));
+    }
 
     const strCount = result.count ? ` ${result.count} vezes` : "";
-    // msg.channel.send("");
     await msg.channel.send(
       result.cmdReturn === ""
         ? ""
