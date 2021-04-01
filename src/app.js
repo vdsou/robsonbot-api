@@ -25,6 +25,17 @@ async function getCommands() {
 client.on("message", async (msg) => {
   await getCommands();
 
+  if (msg.content === "!gato") {
+    axios
+      .get("https://api.thecatapi.com/v1/images/search")
+      .then((res) => {
+        msg.channel.send(res.data[0].url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   if (msg.content === "!comandos") {
     msg.channel.send(commands.map((ObjCommand) => `!${ObjCommand.command}`));
   }
@@ -37,8 +48,10 @@ client.on("message", async (msg) => {
     : "";
 
   if (result) {
-    if (result.command === "lind") msg.channel.send(msg.author.displayAvatarURL());
-    if (result.count) await commandsController.updateCount(result.command, (result.count += 1));
+    if (result.command === "lind")
+      msg.channel.send(msg.author.displayAvatarURL());
+    if (result.count)
+      await commandsController.updateCount(result.command, (result.count += 1));
 
     const strCount = result.count ? ` ${result.count} vezes` : "";
     // msg.channel.send("");
