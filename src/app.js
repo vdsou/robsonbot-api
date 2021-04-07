@@ -39,7 +39,10 @@ client.on("message", async (msg) => {
   if (msg.content === "!comandos") {
     msg.channel.send(commands.map((ObjCommand) => `!${ObjCommand.command}`));
   }
-  const splitCmd = msg.content.slice(1, msg.content.length).split(" ");
+  let splitCmd = "";
+  if (msg.content.match(/^!/)) {
+    splitCmd = msg.content.slice(1, msg.content.length).split(" ");
+  }
 
   splitCmd[0] =
     splitCmd[0] === "linda" || splitCmd[0] === "lindo" ? "lind" : splitCmd[0];
