@@ -1,4 +1,5 @@
-node_modules
+node_modules/*
+!node_modules/ytdl-core
 .env
 test.js
 mist
