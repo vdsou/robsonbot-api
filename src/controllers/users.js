@@ -74,7 +74,7 @@ exports.userLogin = async (req, res, next) => {
 
   try {
     const getUser = await Users.findOne({ userName: userName });
-    console.log(getUser, password, userName);
+    // console.log(getUser, password, userName);
     if (getUser) {
       bcrypt.compare(password, getUser.password, (err, result) => {
         if (err) {

@@ -8,6 +8,7 @@ const commandSchema = new Schema({
   image: String,
   cmdReturn: String,
   count: Number,
+  audioYt: String,
 });
 
 module.exports = model("Command", commandSchema);

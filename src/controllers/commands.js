@@ -8,7 +8,7 @@ exports.getOneCommand = async (command) => {
 exports.getCommands = async (req, res) => {
   try {
     const commands = await Commands.find().select(
-      "command cmdReturn image count"
+      "command cmdReturn image count audioYt"
     );
     if (req || res) {
       return res.status(200).json({
@@ -31,12 +31,14 @@ exports.addCommand = async (req, res) => {
     const image = req.body.image.toString();
     const cmdReturn = req.body.cmdReturn.toString();
     const count = req.body.count;
+    const audioYt = req.body.audioYt.toString();
     const insertCommand = await new Commands({
       _id: mongoose.Types.ObjectId(),
       command,
       image,
       cmdReturn,
       count,
+      audioYt,
     });
     const saveCommand = await insertCommand.save();
     return res.status(201).json({
@@ -44,6 +46,7 @@ exports.addCommand = async (req, res) => {
       image,
       cmdReturn,
       count,
+      audioYt,
     });
   } catch (error) {
     console.log("Error: ", error);
@@ -118,6 +121,9 @@ exports.deleteCommand = async (req, res) => {
   }
 };
 exports.updateCount = async (command, newCount) => {
-  const updateCount = await Commands.findOneAndUpdate({ command }, {count: newCount});
+  const updateCount = await Commands.findOneAndUpdate(
+    { command },
+    { count: newCount }
+  );
   return updateCount;
 };
