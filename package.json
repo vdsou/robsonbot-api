@@ -17,7 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.2",
     "morgan": "^1.10.0",
-    "ytdl-core": "^4.8.2"
+    "ytdl-core": "github:vdsou/robsonbot/tree/master/node_modules/ytdl-core"
   },
   "scripts": {
     "start": "node server.js",
