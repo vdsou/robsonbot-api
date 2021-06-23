@@ -1,5 +1,5 @@
-node_modules/*
-!node_modules/ytdl-core
+node_modules
+yarn.lock
 .env
 test.js
 mist
