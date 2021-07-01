@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const token = process.env.token;
 const Discord = require("discord.js");
-const Ytdl = require("ytdl-core-modified");
+const Ytdl = require("ytdl-core");
 const client = new Discord.Client();
 const mongoose = require("mongoose");
 const connectDB = require("./data/db");
@@ -39,7 +39,7 @@ client.on("message", async (msg) => {
   if (msg.content === "!report") {
     msg.channel.send("reportado!");
     const embed = new Discord.MessageEmbed()
-      .setTitle("Central de Report")
+      .setTitle("Central Robson de Report")
       .setColor("0xff0000")
       .setDescription("Por favor. Descreva a denúncia.");
     await msg.channel.send(embed);
@@ -78,38 +78,38 @@ client.on("message", async (msg) => {
     ? await commandsController.getOneCommand(splitCmd[0])
     : "";
 
+    if (!msg.guild) return;
+    if (msg.content === "!join") {
+      if (msg.member.voice.channel) {
+        servers.server.connection = await msg.member.voice.channel.join();
+        ready = true;
+      } else {
+        msg.channel.send("Entre em algum canal de voz, por favor, meu anjo!");
+      }
+    }
+    if (msg.content === "!leave") {
+      if (msg.member.voice.channel) {
+        msg.member.voice.channel.leave();
+        ready = false;
+      } else {
+        msg.channel.send("Entre em algum canal de voz, por favor, meu anjo!");
+      }
+    }
+  
   if (result) {
     if (result.audioYt) {
       // audio
-      if (!msg.guild) return;
-      if (msg.content === "!join") {
-        if (msg.member.voice.channel) {
-          servers.server.connection = await msg.member.voice.channel.join();
-          ready = true;
-        } else {
-          msg.channel.send("Entre em algum canal de voz, por favor, meu anjo!");
-        }
-      }
-      if (msg.content === "!leave") {
-        if (msg.member.voice.channel) {
-          msg.member.voice.channel.leave();
-          ready = false;
-        } else {
-          msg.channel.send("Entre em algum canal de voz, por favor, meu anjo!");
-        }
-      }
+      // msg.channel.send(msg)
 
       if (!ready)
         servers.server.connection = await msg.member.voice.channel.join();
-      // const video = "https://www.youtube.com/watch?v=l8dCq-tey70";
+
       const video = result.audioYt;
-      // console.log(result);
+
       if (Ytdl.validateURL(video)) {
         const dispatcher = servers.server.connection.play(
-          // path.join(__dirname, "/mist/geme.mp3")
           Ytdl(video, { quality: "highestaudio" })
         );
-        // const dispatcher = servers.server.connection.play();
 
         dispatcher.on("start", () => {
           console.log("audio's now playing");
