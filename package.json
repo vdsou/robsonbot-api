@@ -1,5 +1,5 @@
 {
-  "name": "RobsonBot",
+  "name": "robsonbot",
   "version": "1.0.0",
   "description": "my cool discord bot",
   "main": "server.js",
