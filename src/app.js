@@ -37,6 +37,11 @@ require("discord-buttons")(client);
 client.on("message", async (msg) => {
   await getCommands();
 
+  if (msg.content === "!comandos") {
+    const commandsList = await commands.map((ObjCommand) => ` !${ObjCommand.command}`)
+    await msg.channel.send(`Total: ${commandsList.length} comandos. ${commandsList}.`);
+  }
+
   if (msg.content === "!report") {
     msg.channel.send("reportado!");
     const embed = new Discord.MessageEmbed()
@@ -121,13 +126,14 @@ client.on("message", async (msg) => {
     let countp2 = 0;
     client.on("clickButton", async (button) => {
       button.defer();
+
       if (button.id === "p1_plus_1") {
         countp1 = countp1 + 1;
 
         const embed = new Discord.MessageEmbed()
           .setTitle(`${player1}: ${countp1} vs ${player2}: ${countp2}`)
           .setFooter("Adicione ou remova 1 ponto clicando nos botões.");
-        button.message.edit({ embed, components: [buttons1, buttons2] });
+        await button.message.edit({ embed, components: [buttons1, buttons2] });
       }
       if (button.id === "p1_minus_1") {
         if (countp1 > 0) countp1 = countp1 - 1;
@@ -135,7 +141,7 @@ client.on("message", async (msg) => {
         const embed = new Discord.MessageEmbed()
           .setTitle(`${player1}: ${countp1} vs ${player2}: ${countp2}`)
           .setFooter("Adicione ou remova 1 ponto clicando nos botões.");
-        button.message.edit({ embed, components: [buttons1, buttons2] });
+        await button.message.edit({ embed, components: [buttons1, buttons2] });
       }
       if (button.id === "p2_plus_1") {
         countp2 = countp2 + 1;
@@ -143,7 +149,7 @@ client.on("message", async (msg) => {
         const embed = new Discord.MessageEmbed()
           .setTitle(`${player1}: ${countp1} vs ${player2}: ${countp2}`)
           .setFooter("Adicione ou remova 1 ponto clicando nos botões.");
-        button.message.edit({ embed, components: [buttons1, buttons2] });
+        await button.message.edit({ embed, components: [buttons1, buttons2] });
       }
       if (button.id === "p2_minus_1") {
         if (countp2 > 0) countp2 = countp2 - 1;
@@ -151,14 +157,11 @@ client.on("message", async (msg) => {
         const embed = new Discord.MessageEmbed()
           .setTitle(`${player1}: ${countp1} vs ${player2}: ${countp2}`)
           .setFooter("Adicione ou remova 1 ponto clicando nos botões.");
-        button.message.edit({ embed, components: [buttons1, buttons2] });
+        await button.message.edit({ embed, components: [buttons1, buttons2] });
       }
     });
   }
 
-  if (msg.content === "!comandos") {
-    msg.channel.send(commands.map((ObjCommand) => `!${ObjCommand.command}`));
-  }
   // this is temporary
   let splitCmd = "";
   if (msg.content.match(/^!/)) {
