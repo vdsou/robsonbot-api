@@ -210,9 +210,9 @@ client.on("message", async (msg) => {
     ? await commandsController.getOneCommand(splitCmd[0])
     : "";
 
+  // audio
   if (!msg.guild) return;
   if (msg.content === "!join") {
-    console.log(msg.member.voice.channel);
     if (msg.member.voice.channel) {
       servers.server.connection = await msg.member.voice.channel.join();
       ready = true;
@@ -231,29 +231,34 @@ client.on("message", async (msg) => {
 
   if (result) {
     if (result.audioYt) {
-      // audio
       if (!msg.member.voice.channel) {
         msg.channel.send("Entre em algum canal de voz, por favor, meu anjo!");
-      } else if (!ready)
+      } else if (!ready) {
         servers.server.connection = await msg.member.voice.channel.join();
+        ready = true;
+      }
 
       const video = result.audioYt;
 
       if (Ytdl.validateURL(video)) {
-        const dispatcher = servers.server.connection.play(
-          Ytdl(video, { quality: "highestaudio" })
-        );
+        if (msg.member.voice.channel) {
+          await msg.member.voice.channel.join();
+          const dispatcher = servers.server.connection.play(
+            Ytdl(video, { quality: "highestaudio" })
+          );
 
-        dispatcher.on("start", () => {
-          console.log("audio's now playing");
-        });
+          dispatcher.on("start", () => {
+            console.log("audio's now playing", ready);
+            console.log(msg.member.voice.channel == true);
+          });
 
-        // dispatcher.on("speaking", (speaking) => {
-        //   console.log("audio's now finished playing");
-        //   if (!speaking) msg.member.voice.channel.leave();
-        // });
+          // dispatcher.on("speaking", (speaking) => {
+          //   console.log("audio's now finished playing");
+          //   if (!speaking) msg.member.voice.channel.leave();
+          // });
 
-        dispatcher.on("error", console.error);
+          dispatcher.on("error", console.error);
+        }
       } else {
         msg.channel.send("URL do áudio inválida :(");
         console.log("not a valid URL");
