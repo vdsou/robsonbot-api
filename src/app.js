@@ -45,15 +45,15 @@ client.on("message", async (msg) => {
     );
   }
 
-  if (msg.content === "!report") {
-    msg.channel.send("reportado!");
-    const embed = new Discord.MessageEmbed()
-      .setTitle("Central Robson de Report")
-      .setColor("0xff0000")
-      .setDescription("Por favor. Descreva a denúncia.");
-    await msg.channel.send(embed);
-    msg.edit("querida");
-  }
+  // if (msg.content === "!report") {
+  //   msg.channel.send("reportado!");
+  //   const embed = new Discord.MessageEmbed()
+  //     .setTitle("Central Robson de Report")
+  //     .setColor("0xff0000")
+  //     .setDescription("Por favor. Descreva a denúncia.");
+  //   await msg.channel.send(embed);
+  //   msg.edit("querida");
+  // }
   if (msg.content === "!gato") {
     axios
       .get("https://api.thecatapi.com/v1/images/search")
@@ -248,15 +248,8 @@ client.on("message", async (msg) => {
           );
 
           dispatcher.on("start", () => {
-            console.log("audio's now playing", ready);
-            console.log(msg.member.voice.channel == true);
+            console.log("audio's now playing");
           });
-
-          // dispatcher.on("speaking", (speaking) => {
-          //   console.log("audio's now finished playing");
-          //   if (!speaking) msg.member.voice.channel.leave();
-          // });
-
           dispatcher.on("error", console.error);
         }
       } else {
