@@ -134,7 +134,7 @@ client.on("message", async (msg) => {
     });
 
     const filter = (button) => button;
-    const collector = m.createButtonCollector(filter, { time: 60000 * 60 });
+    const collector = m.createButtonCollector(filter, { time: 60000 * 120 });
     collector.on("collect", async (button) => {
       button.defer();
       if (button.id === "p1_plus_1") {
@@ -182,7 +182,15 @@ client.on("message", async (msg) => {
       } else if (button.id === "stop") {
         let embed5 = new Discord.MessageEmbed()
           .setTitle(`${player1}: ${countP1} vs ${player2}: ${countP2}`)
-          .setFooter("Resultado final");
+          .setFooter(
+            `Resultado final: ${
+              countP1 === countP2
+                ? "ninguém venceu 🤭"
+                : countP1 > countP2
+                ? player1 + "🏆"
+                : player2 + "🏆"
+            }`
+          );
         collector.stop();
         await button.message.edit({
           embed: embed5,
