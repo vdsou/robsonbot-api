@@ -5,6 +5,19 @@ exports.getOneCommand = async (command) => {
   const update = await Commands.findOne({ command });
   return update;
 };
+exports.getCommandById = async (req, res) => {
+  try {
+    const id = req.params.id.toString();
+    const command = await Commands.findOne({ _id: id });
+    return res.status(200).json(command);
+  } catch (error) {
+    console.log("Error: ", error);
+    return res.status(500).json({
+      success: false,
+      error,
+    });
+  }
+};
 exports.getCommands = async (req, res) => {
   try {
     const commands = await Commands.find().select(
