@@ -5,12 +5,12 @@ const jwt = require("jsonwebtoken");
 const user = require("../models/user");
 
 exports.addUser = async (req, res, next) => {
-  const userName = req.body.userName.toString();
+  const username = req.body.username.toString();
   const name = req.body.name.toString();
   const password = req.body.password.toString();
 
   try {
-    const getUsername = await Users.find({ userName });
+    const getUsername = await Users.find({ username });
     if (getUsername.length >= 1) {
       return res.status(409).json({
         message: "Conflit",
@@ -25,7 +25,7 @@ exports.addUser = async (req, res, next) => {
           } else {
             const user = await new Users({
               _id: mongoose.Types.ObjectId(),
-              userName,
+              username,
               name,
               password: hash,
             });
@@ -55,7 +55,7 @@ exports.addUser = async (req, res, next) => {
 };
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await Users.find().select("id name userName password");
+    const users = await Users.find().select("id name username password");
     return res.status(200).json({
       Total: users.length,
       users,
@@ -69,12 +69,12 @@ exports.getUsers = async (req, res, next) => {
   }
 };
 exports.userLogin = async (req, res, next) => {
-  const userName = req.body.userName.toString();
+  const username = req.body.username.toString();
   const password = req.body.password.toString();
 
   try {
-    const getUser = await Users.findOne({ userName: userName });
-    // console.log(getUser, password, userName);
+    const getUser = await Users.findOne({ username: username });
+    // console.log(getUser, password, username);
     if (getUser) {
       bcrypt.compare(password, getUser.password, (err, result) => {
         if (err) {
@@ -88,7 +88,7 @@ exports.userLogin = async (req, res, next) => {
           const token = jwt.sign(
             {
               userId: getUser._id,
-              userName: getUser.userName,
+              username: getUser.username,
             },
             process.env.JWT_KEY,
             { expiresIn: "1h" }
