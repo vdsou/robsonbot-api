@@ -9,6 +9,7 @@ const connectDB = require("./data/db");
 const commandsController = require("./controllers/commands");
 const index = require("./routes/index");
 const cors = require("cors");
+app.use(cors());
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const axios = require("axios");
@@ -17,7 +18,6 @@ const path = require("path");
 const { collection } = require("./models/command");
 let commands = {};
 let ready = false;
-app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -33,6 +33,18 @@ const servers = {
   },
 };
 require("discord-buttons")(client);
+// client.on("guildMemberAdd", async (member) => {
+//   const channel = member.guild.channels.cache.find(
+//     (ch) => ch.id === "402972272870162435"
+//   );
+//   if (!channel) return;
+
+//   await channel.send(`Bem-vindo(a), ${member}! Isso aqui tá uma loucura, né?`, {
+//     files: [
+//       "https://media.tenor.com/images/799ed0a2c8870ebcceee8f61742a129d/tenor.gif?itemid=7911935!!!",
+//     ],
+//   });
+// });
 client.on("message", async (msg) => {
   await getCommands();
 
@@ -44,16 +56,6 @@ client.on("message", async (msg) => {
       `Total: ${commandsList.length} comandos. ${commandsList}.`
     );
   }
-
-  // if (msg.content === "!report") {
-  //   msg.channel.send("reportado!");
-  //   const embed = new Discord.MessageEmbed()
-  //     .setTitle("Central Robson de Report")
-  //     .setColor("0xff0000")
-  //     .setDescription("Por favor. Descreva a denúncia.");
-  //   await msg.channel.send(embed);
-  //   msg.edit("querida");
-  // }
   if (msg.content === "!gato") {
     axios
       .get("https://api.thecatapi.com/v1/images/search")
@@ -70,7 +72,7 @@ client.on("message", async (msg) => {
     });
   }
   if (msg.content === "user") {
-    console.log(msg.guild.channels);
+    console.log(msg.guild.systemChannel.id);
   }
 
   if (msg.content.startsWith("!kof")) {
