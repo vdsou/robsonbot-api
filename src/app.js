@@ -246,7 +246,15 @@ client.on("message", async (msg) => {
         if (msg.member.voice.channel) {
           await msg.member.voice.channel.join();
           const dispatcher = servers.server.connection.play(
-            Ytdl(video, { quality: "highestaudio" })
+            Ytdl(video, {
+              filter: "audioonly",
+              quality: "highestaudio",
+              requestOptions: {
+                headers: {
+                  cookie: process.env.COOKIE,
+                },
+              },
+            })
           );
 
           dispatcher.on("start", () => {
