@@ -15,18 +15,18 @@ made with love <3 by me.
 
 #### Dependecies:
 
-- @discordjs/opus: ^0.5.3,
-- axios: ^0.21.1,
-- bcrypt: ^5.0.1,
-- cors: ^2.8.5,
-- discord-buttons: ^3.2.1,
-- discord.js: ^12.5.1,
-- dotenv: ^8.2.0,
-- express: ^4.17.1,
-- ffmpeg-static: ^4.3.0,
-- jsonwebtoken: ^8.5.1,
-- mongoose: ^5.12.2,
-- morgan: ^1.10.0,
+- @discordjs/opus: ^0.5.3;
+- axios: ^0.21.1;
+- bcrypt: ^5.0.1;
+- cors: ^2.8.5;
+- discord-buttons: ^3.2.1;
+- discord.js: ^12.5.1;
+- dotenv: ^8.2.0;
+- express: ^4.17.1;
+- ffmpeg-static: ^4.3.0;
+- jsonwebtoken: ^8.5.1;
+- mongoose: ^5.12.2;
+- morgan: ^1.10.0;
 - ytdl-core: ^4.9.1
 
 
