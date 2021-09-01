@@ -11,7 +11,7 @@ but very necessary for me and my friends over my particular discord server.
 
 Most of the commands are stored in a MongoDB database.
 He's also an <b>API</b> whose endpoints are currently being consumed by his own webpage
-made with love <3 by me.
+made with love ❤️ by me.
 
 #### Dependecies:
 
