@@ -102,14 +102,14 @@ client.on("message", async (msg) => {
       if (result.command === "lind") {
         msg.channel.send(msg.author.displayAvatarURL());
       }
-      if (result.count >= 0) {
+      if (result.count !== null) {
         await commandsController.updateCount(
           result.command,
           (result.count += 1)
         );
       }
 
-      const strCount = result.count ? ` ${result.count} vezes` : "";
+      const strCount = result.count !== null ? ` ${result.count} vezes` : "";
       await msg.channel.send(
         result.cmdReturn === ""
           ? ""
