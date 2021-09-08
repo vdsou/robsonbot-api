@@ -1,5 +1,4 @@
 const path = require("path");
-console.log(path.join(__dirname, "..", "controllers"))
 const commandsController = require("../../../controllers/commands");
 async function getCommands() {
   commands = await commandsController.getCommands();
