@@ -25,7 +25,7 @@ require("discord-buttons")(client);
 
 const messagesHandler = require("./events/message/message");
 const guildMemberAdd = require("./events/guildMemberAdd/guildMemberAdd");
-const voiceStateUpdate = require("./events/voiceStateUpdate/voiceStateUpdate")
+const voiceStateUpdate = require("./events/voiceStateUpdate/voiceStateUpdate");
 client.on("message", messagesHandler);
 client.on("guildMemberAdd", guildMemberAdd);
 client.on("voiceStateUpdate", voiceStateUpdate);
@@ -102,14 +102,16 @@ client.on("message", async (msg) => {
       if (result.command === "lind") {
         msg.channel.send(msg.author.displayAvatarURL());
       }
-      if (result.count !== null) {
+      if (result.count !== undefined && result.count !== null) {
         await commandsController.updateCount(
           result.command,
           (result.count += 1)
         );
       }
-
-      const strCount = result.count !== null ? ` ${result.count} vezes` : "";
+      const strCount =
+        result.count === undefined || result.count === null
+          ? ""
+          : ` ${result.count} vezes`;
       await msg.channel.send(
         result.cmdReturn === ""
           ? ""
@@ -125,7 +127,6 @@ client.on("message", async (msg) => {
     }
   }
 });
-// client.on("debug", console.log)
 client.login(token);
 app.use(index);
 app.get("/", (req, res) => {
