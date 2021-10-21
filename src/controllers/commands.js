@@ -40,11 +40,7 @@ exports.getCommands = async (req, res) => {
 };
 exports.addCommand = async (req, res) => {
   try {
-    const command = req.body.command.toString();
-    const image = req.body.image.toString();
-    const cmdReturn = req.body.cmdReturn.toString();
-    const count = req.body.count;
-    const audioYt = req.body.audioYt.toString();
+    const {command, image, cmdReturn, count, audioYt} = req.body;
     const insertCommand = await new Commands({
       _id: mongoose.Types.ObjectId(),
       command,
