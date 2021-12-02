@@ -6,6 +6,7 @@ const servers = {
       dispatcher: null,
     },
   };
+const volume = process.env.VOLUME / 100;
 
 module.exports = async (oldMember, newMember) => {
   if (newMember.channelID === process.env.JOKE_CHANNEL_ID) {
@@ -24,7 +25,8 @@ module.exports = async (oldMember, newMember) => {
           },
         })
       );
-
+      
+      dispatcher.setVolume(volume);
       dispatcher.on("start", () => {
         console.log("audio's now playing");
       });
