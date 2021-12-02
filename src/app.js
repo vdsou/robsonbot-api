@@ -23,6 +23,8 @@ const servers = {
 };
 require("discord-buttons")(client);
 
+const volume = process.env.VOLUME / 100;
+
 const messagesHandler = require("./events/message/message");
 const guildMemberAdd = require("./events/guildMemberAdd/guildMemberAdd");
 const voiceStateUpdate = require("./events/voiceStateUpdate/voiceStateUpdate");
@@ -87,7 +89,7 @@ client.on("message", async (msg) => {
               },
             })
           );
-
+          dispatcher.setVolume(volume);
           dispatcher.on("start", () => {
             console.log("audio's now playing");
           });
