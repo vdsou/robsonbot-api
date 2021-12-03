@@ -1,11 +1,11 @@
 const Ytdl = require("ytdl-core");
 
 const servers = {
-    server: {
-      connection: null,
-      dispatcher: null,
-    },
-  };
+  server: {
+    connection: null,
+    dispatcher: null,
+  },
+};
 const volume = process.env.VOLUME / 100;
 
 module.exports = async (oldMember, newMember) => {
@@ -25,12 +25,12 @@ module.exports = async (oldMember, newMember) => {
           },
         })
       );
-      
+
       dispatcher.setVolume(volume);
       dispatcher.on("start", () => {
         console.log("audio's now playing");
       });
-        dispatcher.on("finish", () => {
+      dispatcher.on("finish", () => {
         console.log("audio finished");
         newMember.member.voice.channel.leave();
         ready = false;
