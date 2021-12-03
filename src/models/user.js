@@ -6,6 +6,7 @@ const userSchema = Schema({
   username: { type: String, unique: true, required: true },
   name: { type: String, required: true },
   password: { type: String, required: true },
+  createdAt: { type: Date, default: new Date() },
 });
 
-module.exports = model("User", userSchema)
+module.exports = model("User", userSchema);
