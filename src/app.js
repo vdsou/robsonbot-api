@@ -32,6 +32,15 @@ client.on("message", messagesHandler);
 client.on("guildMemberAdd", guildMemberAdd);
 client.on("voiceStateUpdate", voiceStateUpdate);
 
+const userJoke = process.env.USER_JOKE;
+const userJokeMessage = process.env.USER_JOKE_MESSAGE;
+client.on("typingStart", (channel, user) => {
+  if (user.id === userJoke) {
+    channel.send(`${userJokeMessage}`).then((message) => {
+      message.delete({ timeout: 5000 });
+    });
+  }
+});
 client.on("message", async (msg) => {
   // this is temporary ONLY FOR DATABASE COMMANDS!
   let splitCmd = "";
