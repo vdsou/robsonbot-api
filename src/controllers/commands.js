@@ -40,9 +40,10 @@ exports.getCommands = async (req, res) => {
 };
 exports.addCommand = async (req, res) => {
   try {
-    const {command, image, cmdReturn, count, audioYt} = req.body;
+    const { command, image, cmdReturn, count, audioYt, userId } = req.body;
     const insertCommand = await new Commands({
       _id: mongoose.Types.ObjectId(),
+      user: userId,
       command,
       image,
       cmdReturn,
@@ -51,11 +52,7 @@ exports.addCommand = async (req, res) => {
     });
     const saveCommand = await insertCommand.save();
     return res.status(201).json({
-      command,
-      image,
-      cmdReturn,
-      count,
-      audioYt,
+      saveCommand
     });
   } catch (error) {
     console.log("Error: ", error);
