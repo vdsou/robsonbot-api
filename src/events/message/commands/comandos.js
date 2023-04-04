@@ -6,10 +6,16 @@ async function getCommands() {
 }
 module.exports = async (msg) => {
   await getCommands();
-  const commandsList = await commands.map(
-    (ObjCommand) => ` !${ObjCommand.command}`
-  );
+  const commandsList = await commands.map((ObjCommand) => {
+    if (ObjCommand.audioYt && ObjCommand.audioYt.length > 0) {
+      return ` !${ObjCommand.command} 🔊️`;
+    }
+    if (ObjCommand.image && ObjCommand.image.length > 0) {
+      return ` !${ObjCommand.command} 📸️`;
+    }
+    return ` !${ObjCommand.command} 🗒️`;
+  });
   await msg.channel.send(
-    `Total: ${commandsList.length} comandos. ${commandsList}.`
+    `Total: ${commandsList.length} comandos ${commandsList}.`
   );
 };

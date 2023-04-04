@@ -18,7 +18,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.2",
     "morgan": "^1.10.0",
-    "ytdl-core": "^4.9.1"
+    "ytdl-core": "^4.11.3"
   },
   "scripts": {
     "start": "node server.js",

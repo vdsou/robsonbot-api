@@ -23,7 +23,7 @@ const servers = {
 };
 require("discord-buttons")(client);
 
-const volume = process.env.VOLUME / 100;
+const volume = process.env.AUDIO_VOLUME / 100;
 
 const messagesHandler = require("./events/message/message");
 const guildMemberAdd = require("./events/guildMemberAdd/guildMemberAdd");
@@ -83,7 +83,8 @@ client.on("message", async (msg) => {
       }
 
       const video = result.audioYt;
-
+      const { COOKIE, YT_ID_TOKEN } = process.env;
+      console.log(YT_ID_TOKEN)
       if (Ytdl.validateURL(video)) {
         if (msg.member.voice.channel) {
           await msg.member.voice.channel.join();
@@ -93,7 +94,8 @@ client.on("message", async (msg) => {
               quality: "highestaudio",
               requestOptions: {
                 headers: {
-                  cookie: process.env.COOKIE,
+                  cookie: COOKIE,
+                  'x-youtube-identity-token': YT_ID_TOKEN,
                 },
               },
             })
