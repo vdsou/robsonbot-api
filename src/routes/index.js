@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 const commands = require("./commands")
 const users = require("./users")
 const app = express();
