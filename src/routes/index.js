@@ -6,7 +6,7 @@ const app = express();
 app.get("/api", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Hello, world! 🤖️",
+    message: "Root! Hello, world! 🤖️",
   });
 });
 app.use("/api/commands/", commands);
