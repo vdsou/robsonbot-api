@@ -3,14 +3,14 @@ const commands = require("./commands")
 const users = require("./users")
 const app = express();
 
-app.get("/app", (req, res) => {
+app.get("/api", (req, res) => {
   res.status(200).json({
     success: true,
     message: "Hello, world! 🤖️",
   });
 });
-app.use("/app/commands/", commands);
-app.use("/app/users/", users);
+app.use("/api/commands/", commands);
+app.use("/api/users/", users);
 
 
 module.exports = app;
