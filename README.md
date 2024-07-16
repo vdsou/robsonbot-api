@@ -1,6 +1,6 @@
 # Hey, there
 
-This project is **Robson** Project, a discord bot who can do some simple things,
+This is the **Robson** Project, a discord bot who can do some simple things,
 which make me and my friends happy while hanging on discord.
 
 ## He can
